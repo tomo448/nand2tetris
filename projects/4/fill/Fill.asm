@@ -12,6 +12,16 @@
 // the screen should remain fully clear as long as no key is pressed.
 
 // Put your code here.
+@x //A=x
+M=0 //M[x]=0
+(OLOOP)
+@KBD //A=KBD
+D=M //Dはキーボードの値
+@IF
+D;JGT //キーボードが押されていればIFにジャンプ
+@ELSE
+D;JLE //キーボードが押されていなければジャンプ
+(MAINLOOP)
 @i
 M=0 //M[i]=0
 @SCREEN //A=SCREEN
@@ -20,16 +30,20 @@ D=A //D=SCREEN
 M=D //M[adrr]=SCREEN
 @LOOP
 0;JMP //LOOPにジャンプ
+@OLOOP
+0;JMP //一番外側の無限ループ
 (LOOP)
 @i //A=i M[i]=ループ回数
 D=M //D=ループ回数
 @8192
 D=A-D //D=8192-i
-@END
-D;JLE //D<=0ならば(END)にジャンプ
+@OLOOP
+D;JLE //D<=0ならば(OLOOP)にジャンプ
+@x //A=x
+D=M
 @adrr
 A=M //A=M[adrr]
-M=-1 //M[M[adrr]]=-1　塗る
+M=D //M[M[adrr]]=D　塗る
 D=A //D=M[adrr]
 @adrr //A=adrr
 M=D+1 //M[adrr]=16384+1 //進める
@@ -37,6 +51,13 @@ M=D+1 //M[adrr]=16384+1 //進める
 M=M+1 //ループ回数を増やす　A=i
 @LOOP
 0;JMP //LOOPの先頭に戻る
-(END)
-@END
+(IF)
+@x
+M=-1 //M[x]=-1 黒に塗る
+@MAINLOOP
+0;JMP
+(ELSE)
+@x
+M=0 //M[x]=0 白に塗る
+@MAINLOOP
 0;JMP
