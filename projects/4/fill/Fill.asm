@@ -23,8 +23,8 @@ M=D //M[adrr]=SCREEN
 (LOOP)
 @i //A=i M[i]=ループ回数
 D=M //D=ループ回数
-@32
-D=A-D //D=32-i
+@8192
+D=A-D //D=8192-i
 @END
 D;JLE //D<=0ならば(END)にジャンプ
 @adrr
