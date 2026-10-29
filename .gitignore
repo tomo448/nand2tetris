@@ -2,3 +2,5 @@
 tools/
 *.out
 *.hack
+assembler/strip
+*.dSYM
