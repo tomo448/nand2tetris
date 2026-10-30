@@ -4,3 +4,6 @@ tools/
 *.hack
 assembler/strip
 *.dSYM
+assembler/labels
+assembler/map_test
+assembler/p
