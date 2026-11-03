@@ -37,27 +37,18 @@ CommandC splitDJC(std::string c_command)
 
 std::string ConvertD(std::string dest)
 {
-    std::string d="";
+    std::string d="000";
     if(dest.find("A")!=std::string::npos)
     {
-        d.push_back('1');
-    }else
-    {
-        d.push_back('0');
+        d.at(0)='1';
     }
     if(dest.find("D")!=std::string::npos)
     {
-        d.push_back('1');
-    }else
-    {
-        d.push_back('0');
+        d.at(1)='1';
     }
     if(dest.find("M")!=std::string::npos)
     {
-        d.push_back('1');
-    }else
-    {
-        d.push_back('0');
+        d.at(2)='1';
     }
     return d;
 }
