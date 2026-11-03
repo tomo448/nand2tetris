@@ -34,3 +34,30 @@ CommandC splitDJC(std::string c_command)
     comp=c_command;
     return CommandC{comp,dest,jump};
 }
+
+std::string ConvertD(std::string dest)
+{
+    std::string d="";
+    if(dest.find("A")!=std::string::npos)
+    {
+        d.push_back('1');
+    }else
+    {
+        d.push_back('0');
+    }
+    if(dest.find("D")!=std::string::npos)
+    {
+        d.push_back('1');
+    }else
+    {
+        d.push_back('0');
+    }
+    if(dest.find("M")!=std::string::npos)
+    {
+        d.push_back('1');
+    }else
+    {
+        d.push_back('0');
+    }
+    return d;
+}
