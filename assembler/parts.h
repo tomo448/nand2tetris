@@ -52,3 +52,25 @@ std::string ConvertD(std::string dest)
     }
     return d;
 }
+
+std::string ConvertJ(std::string jump)
+{
+    std::string j="";
+       if(jump== "")
+            j="000";
+        if(jump=="JGT")
+            j="001";
+        if(jump=="JEQ")
+            j="010";
+        if(jump=="JGE")
+            j="011";
+        if(jump=="JLT")
+            j="100";
+        if(jump=="JNE")
+            j="101";
+        if(jump=="JLE")
+            j="110";
+        if(jump=="JMP")
+            j="111";
+    return j;
+}
