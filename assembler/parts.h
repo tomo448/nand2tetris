@@ -2,6 +2,8 @@
 #include<format>
 #include<unordered_map>
 
+enum class CommandType { A_COMMAND, C_COMMAND, L_COMMAND };
+
 const std::unordered_map<std::string,std::string> table
 {
     {"0","101010"},{"1","111111"},{"-1","111010"},
@@ -97,4 +99,20 @@ std::string ConvertC(std::string comp)
     }
     c.insert(1,table.at(comp));
     return c;
+}
+
+CommandType JudgeAC(std::string command)
+{
+    if(command[0]=='@')
+    {
+        return CommandType::A_COMMAND;
+    }
+    else if(command.find("(")!=std::string::npos)
+    {
+        return CommandType::L_COMMAND;
+    }
+    else
+    {
+        return CommandType::C_COMMAND;
+    }
 }
