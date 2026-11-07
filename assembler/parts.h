@@ -1,5 +1,16 @@
 #include<string>
 #include<format>
+#include<unordered_map>
+
+const std::unordered_map<std::string,std::string> table
+{
+    {"0","101010"},{"1","111111"},{"-1","111010"},
+    {"D","001100"},{"A","110000"},{"!D","001101"},
+    {"!A","110001"},{"-D","001111"},{"-A","110011"},
+    {"D+1","011111"},{"A+1","110111"},{"D-1","001110"},
+    {"A-1","110010"},{"D+A","000010"},{"D-A","010011"},
+    {"A-D","000111"},{"D&A","000000"},{"D|A","010101"}
+};
 
 std::string ParserA(const std::string a_command)
 {
@@ -73,4 +84,17 @@ std::string ConvertJ(std::string jump)
         if(jump=="JMP")
             j="111";
     return j;
+}
+
+std::string ConvertC(std::string comp)
+{
+    std::string c="0";
+    std::string::size_type pos=comp.find("M");
+    if(pos !=std::string::npos)
+    {
+        c.at(0)='1';
+        comp.replace(pos,1,"A");
+    }
+    c.insert(1,table.at(comp));
+    return c;
 }
