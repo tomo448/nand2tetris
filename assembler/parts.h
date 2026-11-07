@@ -116,3 +116,13 @@ CommandType JudgeAC(std::string command)
         return CommandType::C_COMMAND;
     }
 }
+
+std::string ParserC(std::string c_command)
+{
+    std::string c="111";
+    CommandC cmdc=splitDJC(c_command);
+    c.insert(3,ConvertC(cmdc.comp));
+    c.insert(10,ConvertD(cmdc.dest));
+    c.insert(13,ConvertJ(cmdc.jump));
+    return c;
+}
