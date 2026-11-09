@@ -9,3 +9,4 @@ assembler/map_test
 assembler/p
 assembler/test_*
 !assembler/test_*.cpp
+assembler/build
