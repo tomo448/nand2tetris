@@ -1,6 +1,7 @@
 #include<string>
 #include<format>
 #include<unordered_map>
+#include<utility>
 
 enum class CommandType { A_COMMAND, C_COMMAND, L_COMMAND };
 
@@ -134,4 +135,10 @@ std::string ParserC(std::string c_command)
     c.insert(10,ConvertD(cmdc.dest));
     c.insert(13,ConvertJ(cmdc.jump));
     return c;
+}
+
+void MapLabel(const std::string& label,int address)
+{
+    std::string onlylabel=label.substr(1,label.length()-2);
+    addressMap.insert(std::pair<std::string,int>{onlylabel,address});
 }
