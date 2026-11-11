@@ -6,3 +6,6 @@
 | 3   | 変数変換器 （@ の行を受け取り、@数 にする）                 | @i→@16、@j→@17、もう一度 @i→@16、@2→@2、@SCREEN→@16384、表にある @LOOP→その番地 | 数字と名前を見分ける                     |     |
 | 4   | build に組み込む（1回目でラベル、2回目で変換。ラベルの行は書き出さない） | Max.asm が本のアセンブラの出力と diff で一致                                  | 行を数える変数を足す                     |     |
 | 5   | 残りのファイル                                  | Rect.asm・Pong.asm も diff で一致                                   | ビルドと確かめのコマンドを、自分で書く            |     |
+
+
+clang++ -std=c++20 -Wall -Wextra -g -o test_ParserC test_ParserC.cpp && ./test_ParserC  ビルドコマンド
