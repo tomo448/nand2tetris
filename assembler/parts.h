@@ -2,12 +2,15 @@
 #include<format>
 #include<unordered_map>
 #include<utility>
+#include<cctype>
+#include<algorithm>
 
 enum class CommandType { A_COMMAND, C_COMMAND, L_COMMAND };
+int varAddress=15;
 
 std::unordered_map<std::string,int> addressMap
 {
-    {"SP",0},{"R1",1},{"R2",2},{"R3",3},{"R4",4},
+    {"SP",0},{"R0",0},{"R1",1},{"R2",2},{"R3",3},{"R4",4},
     {"R5",5},{"R6",6},{"R7",7},{"R8",8},{"R9",9},
     {"R10",10},{"R11",11},{"R12",12},{"R13",13},{"R14",14},
     {"R15",15},{"SCREEN",16384},{"KBD",24576},{"LCL",1},
@@ -141,4 +144,33 @@ void MapLabel(const std::string& label,int address)
 {
     std::string onlylabel=label.substr(1,label.length()-2);
     addressMap.insert(std::pair<std::string,int>{onlylabel,address});
+}
+
+bool is_number(const std::string& s) {
+    if (s.empty()) return false;
+    return std::all_of(s.begin(), s.end(), [](unsigned char c) {
+        return std::isdigit(c);
+    });
+}
+
+void MapVar(const std::string& var)
+{
+    std::string onlyvar=var.substr(1,var.length()-1);
+    if(is_number(onlyvar))return;
+    if(addressMap.find(onlyvar)==addressMap.end())
+    {
+        varAddress++;
+    }
+    addressMap.insert(std::pair<std::string,int>{onlyvar,varAddress});
+}
+
+std::string ConvertVar(const std::string& input)
+{
+    std::string output;
+    std::string onlyinput=input.substr(1,input.length()-1);
+    if(is_number(onlyinput))
+        output=onlyinput;
+    else
+        output=std::to_string(addressMap.at(onlyinput));
+    return output;
 }
