@@ -4,6 +4,8 @@
 #include<utility>
 #include<cctype>
 #include<algorithm>
+#include<vector>
+#include<fstream>
 
 enum class CommandType { A_COMMAND, C_COMMAND, L_COMMAND };
 int varAddress=15;
@@ -173,4 +175,28 @@ std::string ConvertVar(const std::string& input)
     else
         output=std::to_string(addressMap.at(onlyinput));
     return output;
+}
+
+std::vector<std::string> PutInContainer(std::ifstream& ifs)
+{
+    std::string line;
+    std::string commentout("//");
+    std::vector<std::string> container;
+    while(std::getline(ifs,line))
+    {
+        std::string::size_type pos=line.find(commentout);
+        if(pos!=std::string::npos)
+            line.erase(pos);
+        
+        std::string result;
+        for(char c:line)
+        {
+            if(!std::isspace(static_cast<unsigned char>(c)))
+                result +=c;
+        }
+        if(result.empty())
+            continue;
+        container.push_back(result);
+    }
+    return container;
 }
