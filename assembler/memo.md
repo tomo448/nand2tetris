@@ -9,3 +9,4 @@
 
 
 clang++ -std=c++20 -Wall -Wextra -g -o test_ParserC test_ParserC.cpp && ./test_ParserC  ビルドコマンド
+tools/Assembler.sh projects/6/add/Add.asm  引数はアセンブル対象ファイル　アセンブルコマンド
