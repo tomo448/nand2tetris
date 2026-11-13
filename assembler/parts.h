@@ -200,3 +200,19 @@ std::vector<std::string> PutInContainer(std::ifstream& ifs)
     }
     return container;
 }
+
+void FirstScan(const std::vector<std::string> input)
+{
+    int i=0;
+    std::string parenthesis("(");
+    for(const auto& v :input)
+    {
+        std::string::size_type pos=v.find(parenthesis);
+        if(pos!=std::string::npos)
+        {
+            MapLabel(v,i);
+            continue;
+        }
+        i++;
+    }
+}
