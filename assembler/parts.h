@@ -216,3 +216,36 @@ void FirstScan(const std::vector<std::string> input)
         i++;
     }
 }
+
+std::vector<std::string> SecondScan(const std::vector<std::string>& input)
+{
+    std::string at("@");
+    std::string result;
+    std::string line;
+    std::vector<std::string> output;
+    for(const auto& v :input)
+    {
+        if(CommandType::A_COMMAND==JudgeAC(v))
+        {
+            std::string symbol=v.substr(1,v.length()-1);
+            if(int address=addressMap.at(symbol))
+            {
+                symbol=std::to_string(address);
+            }else
+            {
+                symbol=ConvertVar(symbol);
+            }
+            result=at+symbol;
+            line=ParserA(result);
+        }
+        else if(CommandType::C_COMMAND==JudgeAC(v))
+        {
+            line=ParserC(v);
+        }else if(CommandType::L_COMMAND==JudgeAC(v))
+        {
+            continue;
+        }
+        output.push_back(line);
+    }
+    return output;
+}
