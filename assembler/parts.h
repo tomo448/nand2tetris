@@ -6,6 +6,7 @@
 #include<algorithm>
 #include<vector>
 #include<fstream>
+#include<iostream>
 
 enum class CommandType { A_COMMAND, C_COMMAND, L_COMMAND };
 int varAddress=15;
@@ -228,14 +229,12 @@ std::vector<std::string> SecondScan(const std::vector<std::string>& input)
         if(CommandType::A_COMMAND==JudgeAC(v))
         {
             std::string symbol=v.substr(1,v.length()-1);
-            if(int address=addressMap.at(symbol))
+            if(!addressMap.contains(symbol))
             {
-                symbol=std::to_string(address);
-            }else
-            {
-                symbol=ConvertVar(symbol);
+                MapVar(v);
             }
-            result=at+symbol;
+            result=ConvertVar(v);
+            result=at+result;
             line=ParserA(result);
         }
         else if(CommandType::C_COMMAND==JudgeAC(v))
