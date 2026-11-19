@@ -1,6 +1,7 @@
 #include"parts.h"
 #include<string>
 #include<iostream>
+#include<exception>
 int failed =0;
 
 std::string name(CommandType command)
@@ -32,13 +33,32 @@ void check(const std::string& input,const CommandType expected)
     }
 }
 
+void checkException(const std::string& input)
+{
+    try {
+        GetCommandType(input);
+    } catch (std::exception& ex) {
+        std::cerr<<ex.what()<<std::endl;
+        return;
+    }
+    failed++;
+}
+
 int main()
 {
     check("push constant 7",CommandType::C_PUSH);
     check("pop local 2",CommandType::C_POP);
     check("add",CommandType::C_ARITHMETIC);
+    check("sub",CommandType::C_ARITHMETIC);
     check("neg",CommandType::C_ARITHMETIC);
-    
+    check("eq",CommandType::C_ARITHMETIC);
+    check("gt",CommandType::C_ARITHMETIC);
+    check("lt",CommandType::C_ARITHMETIC);
+    check("and",CommandType::C_ARITHMETIC);
+    check("or",CommandType::C_ARITHMETIC);
+    check("not",CommandType::C_ARITHMETIC);
+    checkException(" ");
+    checkException("poi");
     if(failed==0)
         std::cout<<"全部合格"<<std::endl;
     else{
