@@ -15,22 +15,6 @@ struct VMCommand
     std::string arg1;
     std::string arg2;
 };
-std::vector<std::string> inputFile(std::string src)
-{
-    std::ifstream ifs;
-    std::vector<std::string> container;
-    std::string line;
-    ifs.open(src);
-    if(!ifs.is_open())
-    {
-        std::cerr<<"ファイルが開けません"<<std::endl;
-    }
-    while(std::getline(ifs,line))
-    {
-        container.push_back(line);
-    }
-    return container;
-}
 
 std::vector<std::string> SplitString(const std::string& input)
 {
@@ -54,20 +38,6 @@ std::vector<std::string> SplitString(const std::string& input)
 
 CommandType GetCommandType(const std::string& input)
 {
-    /*std::string line;
-    std::vector<std::string> substr;
-    std::stringstream ss(input);
-    VMCommand vmc;
-    while(std::getline(ss,line,' '))
-    {
-        substr.push_back(line);
-    }
-    for(int i=0;i<2;i++)
-    {
-        if(i==0)vmc.Command=substr[0];
-        else if(i==1)vmc.arg1=substr[1];
-        else vmc.arg2=substr[2];
-    }*/
     std::vector<std::string> vs=SplitString(input);
     return CommandType::C_PUSH;
 }
