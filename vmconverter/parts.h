@@ -94,23 +94,22 @@ void CheckRightStyle(const std::vector<std::string>& input)
     int rightcount=1;
     if(count==0) throw std::invalid_argument("命令列が空です");
     CommandType ct=GetCommandType(input[0]);
-    if(ct==CommandType::C_POP||ct==CommandType::C_PUSH)
+    bool hasArgument=ct==CommandType::C_POP||ct==CommandType::C_PUSH;
+    if(hasArgument)
         rightcount=3;
     //命令コマンドの数が正しいかチェック
     if(rightcount!=count){
         if(rightcount>count)
-            throw std::invalid_argument("命令形式が間違っています.命令の個数が"+std::to_string(rightcount-count)+"個少ないです");
+            throw std::invalid_argument("命令形式が間違っています.言葉の個数が"+std::to_string(rightcount-count)+"個少ないです");
         else
-            throw std::invalid_argument("命令形式が間違っています.命令の個数が"+std::to_string(count-rightcount)+"個多いです");
-    }else{//命令コマンドの数が正しい場合
-        if(rightcount==3)
-        {
-            if(!SegmentTable.contains(input[1]))
-                throw std::out_of_range("そのようなセグメントはありません："+input[1]);
-            if(ct==CommandType::C_POP&&SegmentTable.at(input[1])==Segment::CONSTANT)
-                throw std::out_of_range("popではconstantを使えません");
-            if(!is_number(input[2]))
-                throw std::invalid_argument("命令形式が間違っています．最後が数字でありません");
-        }
+            throw std::invalid_argument("命令形式が間違っています.言葉の個数が"+std::to_string(count-rightcount)+"個多いです");
     }
+    //命令コマンドの数が正しい場合
+    if(!hasArgument)return;
+    if(!SegmentTable.contains(input[1]))
+        throw std::out_of_range("そのようなセグメントはありません："+input[1]);
+    if(ct==CommandType::C_POP&&SegmentTable.at(input[1])==Segment::CONSTANT)
+        throw std::out_of_range("popではconstantを使えません");
+    if(!is_number(input[2]))
+        throw std::invalid_argument("命令形式が間違っています．最後が数字でありません");
 }
