@@ -65,6 +65,17 @@ CommandType GetCommandType(const std::string& input)
     return CommandTable.at(command);
 }
 
+CommandType GetCommandType2(const std::vector<std::string>& input)
+{
+    //std::vector<std::string> vs=SplitString(input);
+   if(input.empty())
+       throw std::invalid_argument("文字列が空です");
+    std::string command=input[0];
+    if(!CommandTable.contains(command))
+        throw std::out_of_range("そのようなコマンドはありません："+command);
+    return CommandTable.at(command);
+}
+
 std::string GetArgument1(const std::vector<std::string>& input)
 {
     std::string arg;
@@ -113,3 +124,19 @@ void CheckRightStyle(const std::vector<std::string>& input)
     if(!is_number(input[2]))
         throw std::invalid_argument("命令形式が間違っています．最後が数字でありません");
 }
+
+class Parser
+{
+public:
+    Parser(std::vector<std::string> str){_str=str;_number_of_lines=-1;}
+    bool hasMoreCommands(){int commandcount=_str.size();if(commandcount>(_number_of_lines+1))return true;return false;}
+    void advance(){if(hasMoreCommands()){_number_of_lines++;_line=SplitString(_str[_number_of_lines]);}else{throw std::out_of_range("最後の行です");}}
+    CommandType commandType(){return GetCommandType2(_line);}
+    std::string arg1(){return GetArgument1(_line);}
+    int arg2(){return GetArgument2(_line);}
+    
+private:
+    std::vector<std::string> _str;
+    std::vector<std::string> _line;
+    int _number_of_lines;
+};
