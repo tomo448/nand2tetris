@@ -55,3 +55,18 @@ CommandType GetCommandType(const std::string& input)
     return CommandTable.at(command);
 }
 
+std::string GetArgument1(const std::vector<std::string>& input)
+{
+    std::string arg;
+    if(GetCommandType(input[0])==CommandType::C_ARITHMETIC)
+        arg=input[0];
+    else
+        arg=input[1];
+    return arg;
+}
+
+int GetArgument2(const std::vector<std::string>& input)
+{
+    int arg=std::stoi(input[2]);
+    return arg;
+}
