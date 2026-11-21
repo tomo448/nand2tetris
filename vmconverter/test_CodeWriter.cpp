@@ -5,9 +5,9 @@
 
 int failed=0;
 
-void checkAdd(CodeWriter& input,const std::vector<std::string>& expected)
+void checkArithmetic(CodeWriter& input,const std::string& command,const std::vector<std::string>& expected)
 {
-    std::vector<std::string> actual=input.writeArithmetic();
+    std::vector<std::string> actual=input.writeArithmetic(command);
     if(actual==expected)
     {
         std::cout<<"合格"<<std::endl;
@@ -28,9 +28,9 @@ void checkAdd(CodeWriter& input,const std::vector<std::string>& expected)
     }
 }
 
-void checkPush(CodeWriter& input,const std::vector<std::string>& expected)
+void checkPushPop(CodeWriter& input,CommandType command ,const std::string& arg1,int arg2,const std::vector<std::string>& expected)
 {
-    std::vector<std::string> actual=input.writePushPop();
+    std::vector<std::string> actual=input.writePushPop(command,arg1,arg2);
     if(actual==expected)
     {
         std::cout<<"合格"<<std::endl;
@@ -49,19 +49,46 @@ void checkPush(CodeWriter& input,const std::vector<std::string>& expected)
         }
         failed++;
     }
+}
+
+void checkExceptionArithmetic(CodeWriter& input,const std::string& command)
+{
+    try {
+        std::vector<std::string> actual=input.writeArithmetic(command);
+    } catch (std::exception& e) {
+        std::cout<<"合格"<<std::endl;
+        std::cerr<<e.what()<<std::endl;
+        return;
+    }
+    std::cout<<"不合格"<<std::endl;
+    failed++;
+}
+
+void checkExceptionPushPop(CodeWriter& input,CommandType command,const std::string& arg1,int arg2)
+{
+    try {
+        std::vector<std::string> actual=input.writePushPop(command,arg1,arg2);
+    } catch (std::exception& e) {
+        std::cout<<"合格"<<std::endl;
+        std::cerr<<e.what()<<std::endl;
+        return;
+    }
+    std::cout<<"不合格"<<std::endl;
+    failed++;
 }
 
 int main()
 {
-    CodeWriter cw({"push constant 7","push constant 0","push constant 32767","add"});
-    cw.next();
-    checkPush(cw,{"@7","D=A","@SP","AM=M+1","A=A-1","M=D"});
-    cw.next();
-    checkPush(cw,{"@0","D=A","@SP","AM=M+1","A=A-1","M=D"});
-    cw.next();
-    checkPush(cw,{"@32767","D=A","@SP","AM=M+1","A=A-1","M=D"});
-    cw.next();
-    checkAdd(cw,{"@SP","AM=M-1","D=M","A=A-1","M=D+M"});
+    Parser parser({"push constant 7","push constant 0","push constant 32767","add","push local 2","neg","gt","lt"});
+    CodeWriter cw;
+    checkPushPop(cw,CommandType::C_PUSH,"constant",7,{"@7","D=A","@SP","AM=M+1","A=A-1","M=D"});
+    checkPushPop(cw,CommandType::C_PUSH,"constant",0,{"@0","D=A","@SP","AM=M+1","A=A-1","M=D"});
+    checkPushPop(cw,CommandType::C_PUSH,"constant",32767,{"@32767","D=A","@SP","AM=M+1","A=A-1","M=D"});
+    checkArithmetic(cw,"add",{"@SP","AM=M-1","D=M","A=A-1","M=D+M"});
+    checkExceptionPushPop(cw,CommandType::C_PUSH,"local",2);
+    checkExceptionArithmetic(cw,"neg");
+    checkExceptionArithmetic(cw,"gt");
+    checkExceptionArithmetic(cw,"lt");
     if(failed==0)
     {
         std::cout<<"全部合格"<<std::endl;

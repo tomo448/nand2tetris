@@ -144,32 +144,30 @@ private:
 class CodeWriter
 {
 public:
-    CodeWriter(std::vector<std::string> str){_str=str;_number_of_lines=-1;}
+    CodeWriter(){}
     void SetFileName(const std::string& filename)
     {
         _currentfilename=filename;
     }
-    std::vector<std::string> writeArithmetic()
+    std::vector<std::string> writeArithmetic(const std::string& command)
     {
-        if(_line[0]=="add")
+        if(command=="add")
             return writeAdd();
         else
-            throw std::invalid_argument("addではない命令です");
+            throw std::invalid_argument(command+"命令は未実装です");
     }
-    std::vector<std::string> writePushPop()
+    std::vector<std::string> writePushPop(CommandType command,const std::string& arg1,int arg2)
     {
-        int arg2=GetArgument2(_line);
+        if(command==CommandType::C_POP)
+            throw std::invalid_argument("popは未実装です");
+        if(arg1!="constant")
+            throw std::invalid_argument("このコマンドは未実装です:"+arg1);
         std::vector<std::string> con{'@'+std::to_string(arg2)};
         con.push_back("D=A");con.push_back("@SP");con.push_back("AM=M+1");con.push_back("A=A-1");con.push_back("M=D");
         return con;
     }
-    
-    void next(){_number_of_lines++;_line=SplitString(_str[_number_of_lines]);}
 private:
     std::string _currentfilename;
-    std::vector<std::string> _str;
-    std::vector<std::string> _line;
-    int _number_of_lines;
     std::vector<std::string> writeAdd()
     {
         return {"@SP","AM=M-1","D=M","A=A-1","M=D+M"};
