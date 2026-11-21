@@ -10,3 +10,6 @@ assembler/p
 assembler/build
 test_*
 !test_*.cpp
+!test_*.vm
+*.asm
+vmconverter/build
