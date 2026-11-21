@@ -125,6 +125,30 @@ void CheckRightStyle(const std::vector<std::string>& input)
         throw std::invalid_argument("命令形式が間違っています．最後が数字でありません");
 }
 
+std::vector<std::string> PutInContainer(std::ifstream& ifs)
+{
+    std::string line;
+    std::string commentout("//");
+    std::vector<std::string> container;
+    while(std::getline(ifs,line))
+    {
+        std::string::size_type pos=line.find(commentout);
+        if(pos!=std::string::npos)
+            line.erase(pos);
+        
+        if(line.find_first_not_of(" \t\r\n") != std::string::npos)
+        {
+            pos=line.find_last_not_of(' ');
+            if(pos!=std::string::npos)
+            {
+                line=line.substr(0,pos+1);
+            }
+            container.push_back(line);
+        }
+    }
+    return container;
+}
+
 class Parser
 {
 public:
@@ -145,7 +169,7 @@ class CodeWriter
 {
 public:
     CodeWriter(){}
-    void SetFileName(const std::string& filename)
+    void setFileName(const std::string& filename)
     {
         _currentfilename=filename;
     }

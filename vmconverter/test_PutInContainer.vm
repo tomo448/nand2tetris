@@ -1,0 +1,4 @@
+// コメントだけの行
+
+push constant 7
+add // 足す
