@@ -140,3 +140,38 @@ private:
     std::vector<std::string> _line;
     int _number_of_lines;
 };
+
+class CodeWriter
+{
+public:
+    CodeWriter(std::vector<std::string> str){_str=str;_number_of_lines=-1;}
+    void SetFileName(const std::string& filename)
+    {
+        _currentfilename=filename;
+    }
+    std::vector<std::string> writeArithmetic()
+    {
+        if(_line[0]=="add")
+            return writeAdd();
+        else
+            throw std::invalid_argument("addではない命令です");
+    }
+    std::vector<std::string> writePushPop()
+    {
+        int arg2=GetArgument2(_line);
+        std::vector<std::string> con{'@'+std::to_string(arg2)};
+        con.push_back("D=A");con.push_back("@SP");con.push_back("AM=M+1");con.push_back("A=A-1");con.push_back("M=D");
+        return con;
+    }
+    
+    void next(){_number_of_lines++;_line=SplitString(_str[_number_of_lines]);}
+private:
+    std::string _currentfilename;
+    std::vector<std::string> _str;
+    std::vector<std::string> _line;
+    int _number_of_lines;
+    std::vector<std::string> writeAdd()
+    {
+        return {"@SP","AM=M-1","D=M","A=A-1","M=D+M"};
+    }
+};
