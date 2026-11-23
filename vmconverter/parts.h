@@ -177,6 +177,22 @@ public:
     {
         if(command=="add")
             return writeAdd();
+        else if(command=="sub")
+            return writeSub();
+        else if(command=="neg")
+            return writeNeg();
+        else if(command=="eq")
+            return writeEqual();
+        else if(command=="gt")
+            return writeGreaterThan();
+        else if(command=="lt")
+            return writeLessThan();
+        else if(command=="and")
+            return writeAnd();
+        else if(command=="or")
+            return writeOr();
+        else if(command=="not")
+            return writeNot();
         else
             throw std::invalid_argument(command+"命令は未実装です");
     }
@@ -192,8 +208,92 @@ public:
     }
 private:
     std::string _currentfilename;
+    int counts=0;
     std::vector<std::string> writeAdd()
     {
         return {"@SP","AM=M-1","D=M","A=A-1","M=D+M"};
+    }
+    std::vector<std::string> writeSub()
+    {
+        return {"@SP","AM=M-1","D=M","A=A-1","M=M-D"};
+    }
+    std::vector<std::string> writeEqual()
+    {
+        counts++;
+        return {"@SP",
+            "AM=M-1",
+            "D=M",
+            "A=A-1",
+            "D=M-D",
+            "@EQUAL"+std::to_string(counts),
+            "D;JEQ",
+            "@SP",
+            "A=M-1",
+            "M=0",
+            "@END"+std::to_string(counts),
+            "0;JMP",
+            "(EQUAL"+std::to_string(counts)+")",
+            "@SP",
+            "A=M-1",
+            "M=-1",
+            "(END"+std::to_string(counts)+")"};
+    }
+    std::vector<std::string> writeLessThan()
+    {
+        counts++;
+        return {"@SP",
+            "AM=M-1",
+            "D=M",
+            "A=A-1",
+            "D=M-D",
+            "@LT"+std::to_string(counts),
+            "D;JLT",
+            "@SP",
+            "A=M-1",
+            "M=0",
+            "@END"+std::to_string(counts),
+            "0;JMP",
+            "(LT"+std::to_string(counts)+")",
+            "@SP",
+            "A=M-1",
+            "M=-1",
+            "(END"+std::to_string(counts)+")"};
+    }
+    std::vector<std::string> writeGreaterThan()
+    {
+        counts++;
+        return {"@SP",
+            "AM=M-1",
+            "D=M",
+            "A=A-1",
+            "D=M-D",
+            "@GT"+std::to_string(counts),
+            "D;JGT",
+            "@SP",
+            "A=M-1",
+            "M=0",
+            "@END"+std::to_string(counts),
+            "0;JMP",
+            "(GT"+std::to_string(counts)+")",
+            "@SP",
+            "A=M-1",
+            "M=-1",
+            "(END"+std::to_string(counts)+")"};
+    }
+    std::vector<std::string> writeAnd()
+    {
+        return {"@SP","AM=M-1","D=M","A=A-1","M=D&M"};
+    }
+    std::vector<std::string> writeOr()
+    {
+        return {"@SP","AM=M-1","D=M","A=A-1","M=D|M"};
+    }
+    std::vector<std::string> writeNot()
+    {
+        return {"@SP","A=M-1","M=!M"};
+    }
+    std::vector<std::string> writeNeg()
+    {
+        return {"@SP","A=M-1","M=-M"};
     }
 };

@@ -14,5 +14,13 @@
 |Parser.arg2|なし|pushとpopの時のみ呼び出す．int型を返す　例 2,3など|test_ParserClass|
 |CodeWriter.writeArithmetic|vm命令コマンド．通常はパサーからarg1を受け取る．C_ARITHMETICの場合しか呼び出さない|手作業で作成したasmコマンド列を返す．|test_CodeWriter|
 |CodeWriter.writePushPop|vm命令コマンド．通常はパサーからCommandType，arg1，arg2を受け取る．C_PUSU,C_POPの場合しか呼び出さない|手作業で作成したasmコマンド列を返す|test_CodeWriter|
-|CodeWriter.writeAdd|なし|add.asmに書いたコマンドをそのまま返す．writeArithmeticから呼ばれるヘルパー関数|test_CodeWriter|
+|CodeWriter.writeAdd|なし|add.asmに書いたコマンドをそのまま返す．writeArithmeticから呼ばれるヘルパー関数||
+|CodeWriter.writeSub|なし|sub.asmに書いたコマンドをそのまま返す．writeArithmeticから呼ばれるヘルパー関数||
+|CodeWriter.writeEqual|なし|eq.asmに書いたコマンドをそのまま返す．writeArithmeticから呼ばれるヘルパー関数||
+|CodeWriter.writeGreaterThan|なし|gt.asmに書いたコマンドをそのまま返す．writeArithmeticから呼ばれるヘルパー関数||
+|CodeWriter.writeLessThan|なし|lt.asmに書いたコマンドをそのまま返す．writeArithmeticから呼ばれるヘルパー関数||
+|CodeWriter.writeAnd|なし|and.asmに書いたコマンドをそのまま返す．writeArithmeticから呼ばれるヘルパー関数||
+|CodeWriter.writeOr|なし|or.asmに書いたコマンドをそのまま返す．writeArithmeticから呼ばれるヘルパー関数||
+|CodeWriter.writeNot|なし|not.asmに書いたコマンドをそのまま返す．writeArithmeticから呼ばれるヘルパー関数||
+|CodeWriter.writeNeg|なし|neg.asmに書いたコマンドをそのまま返す．writeArithmeticから呼ばれるヘルパー関数||
 |CodeWriter.setFileName|現在操作しているファイル名|なし||
