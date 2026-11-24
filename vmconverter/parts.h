@@ -198,13 +198,43 @@ public:
     }
     std::vector<std::string> writePushPop(CommandType command,const std::string& arg1,int arg2)
     {
-        if(command==CommandType::C_POP)
+        if(command==CommandType::C_PUSH)
+        {
+            if(arg1=="constant")
+            return {'@'+std::to_string(arg2),"D=A","@SP","AM=M+1","A=A-1","M=D"};
+            else if(arg1=="local")
+                return {"@LCL","D=M",'@'+std::to_string(arg2),"A=D+A","D=M","@SP","AM=M+1","A=A-1","M=D"};
+            else if(arg1=="argument")
+                return {"@ARG","D=M",'@'+std::to_string(arg2),"A=D+A","D=M","@SP","AM=M+1","A=A-1","M=D"};
+            else if(arg1=="this")
+                return {"@THIS","D=M",'@'+std::to_string(arg2),"A=D+A","D=M","@SP","AM=M+1","A=A-1","M=D"};
+            else if(arg1=="that")
+                return {"@THAT","D=M",'@'+std::to_string(arg2),"A=D+A","D=M","@SP","AM=M+1","A=A-1","M=D"};
+            else if(arg1=="temp")
+                return {"@5","D=A",'@'+std::to_string(arg2),"A=D+A","D=M","@SP","AM=M+1","A=A-1","M=D"};
+            else if(arg1=="pointer")
+                return {"@3","D=A",'@'+std::to_string(arg2),"A=D+A","D=M","@SP","AM=M+1","A=A-1","M=D"};
+            else if(arg1=="static")
+                return {"@16","D=A",'@'+std::to_string(arg2),"A=D+A","D=M","@SP","AM=M+1","A=A-1","M=D"};
+        }
+        else if(command==CommandType::C_POP)
+        {
+            if(arg1=="local")
+                return {"@SP","AM=M-1","D=M","@LCL","D=D+M",'@'+std::to_string(arg2),"D=D+A","@SP","A=M","A=M","A=D-A","M=D-A"};
+            else if(arg1=="argument")
+                return {"@SP","AM=M-1","D=M","@ARG","D=D+M",'@'+std::to_string(arg2),"D=D+A","@SP","A=M","A=M","A=D-A","M=D-A"};
+            else if(arg1=="this")
+                return {"@SP","AM=M-1","D=M","@THIS","D=D+M",'@'+std::to_string(arg2),"D=D+A","@SP","A=M","A=M","A=D-A","M=D-A"};
+            else if(arg1=="that")
+                return {"@SP","AM=M-1","D=M","@THAT","D=D+M",'@'+std::to_string(arg2),"D=D+A","@SP","A=M","A=M","A=D-A","M=D-A"};
+            else if(arg1=="temp")
+                return {"@SP","AM=M-1","D=M","@5","D=D+A",'@'+std::to_string(arg2),"D=D+A","@SP","A=M","A=M","A=D-A","M=D-A"};
+            else if(arg1=="pointer")
+                return {"@SP","AM=M-1","D=M","@3","D=D+A",'@'+std::to_string(arg2),"D=D+A","@SP","A=M","A=M","A=D-A","M=D-A"};
+            else if(arg1=="static")
+                return {"@SP","AM=M-1","D=M","@16","D=D+A",'@'+std::to_string(arg2),"D=D+A","@SP","A=M","A=M","A=D-A","M=D-A"};
+        }
             throw std::invalid_argument("popは未実装です");
-        if(arg1!="constant")
-            throw std::invalid_argument("このコマンドは未実装です:"+arg1);
-        std::vector<std::string> con{'@'+std::to_string(arg2)};
-        con.push_back("D=A");con.push_back("@SP");con.push_back("AM=M+1");con.push_back("A=A-1");con.push_back("M=D");
-        return con;
     }
 private:
     std::string _currentfilename;

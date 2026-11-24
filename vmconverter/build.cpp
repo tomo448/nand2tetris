@@ -35,6 +35,9 @@ int main(int argc,char* argv[])
             case CommandType::C_PUSH:
                 output=cw.writePushPop(parser.commandType(),parser.arg1(),parser.arg2());
                 break;
+            case CommandType::C_POP:
+                output=cw.writePushPop(parser.commandType(),parser.arg1(),parser.arg2());
+                break;
             case CommandType::C_ARITHMETIC:
                 output=cw.writeArithmetic(parser.arg1());
                 break;
