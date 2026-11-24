@@ -24,3 +24,6 @@
 |CodeWriter.writeNot|なし|not.asmに書いたコマンドをそのまま返す．writeArithmeticから呼ばれるヘルパー関数||
 |CodeWriter.writeNeg|なし|neg.asmに書いたコマンドをそのまま返す．writeArithmeticから呼ばれるヘルパー関数||
 |CodeWriter.setFileName|現在操作しているファイル名|なし||
+|CodeWriter.writeLabel|vm命令コマンド．通常はパサーからarg1を受け取る．C_LABELの場合しか呼び出さない|(label)を返す．関数内で呼び出された場合は，(function$label)を返す||
+|CodeWriter.writeGoto|vm命令コマンド．通常はパサーからarg1を受け取る．C_GOTOの場合しか呼び出さない|@label 0;JMPを返す||
+|CodeWriter.writeIf|vm命令コマンド．通常はパサーからarg1を受け取る．C_IFの場合しか呼び出さない|@SP A=M-1 D=M @label D;JNEを返す||

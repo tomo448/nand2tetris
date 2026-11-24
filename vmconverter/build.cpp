@@ -41,6 +41,15 @@ int main(int argc,char* argv[])
             case CommandType::C_ARITHMETIC:
                 output=cw.writeArithmetic(parser.arg1());
                 break;
+            case CommandType::C_LABEL:
+                output=cw.writeLabel(parser.arg1());
+                break;
+            case CommandType::C_GOTO:
+                output=cw.writeGoto(parser.arg1());
+                break;
+            case CommandType::C_IF:
+                output=cw.writeIf(parser.arg1());
+                break;
             default:
                 std::cerr<<"コマンドが一致しません"<<std::endl;
                 return 99;

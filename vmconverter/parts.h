@@ -31,7 +31,7 @@ const std::unordered_map<std::string,CommandType> CommandTable
 {
     {"push",CommandType::C_PUSH},{"pop",CommandType::C_POP},{"add",CommandType::C_ARITHMETIC},
     {"sub",CommandType::C_ARITHMETIC},{"neg",CommandType::C_ARITHMETIC},{"eq",CommandType::C_ARITHMETIC},
-    {"gt",CommandType::C_ARITHMETIC},{"lt",CommandType::C_ARITHMETIC},{"and",CommandType::C_ARITHMETIC},{"or",CommandType::C_ARITHMETIC},{"not",CommandType::C_ARITHMETIC}
+    {"gt",CommandType::C_ARITHMETIC},{"lt",CommandType::C_ARITHMETIC},{"and",CommandType::C_ARITHMETIC},{"or",CommandType::C_ARITHMETIC},{"not",CommandType::C_ARITHMETIC},{"label",CommandType::C_LABEL},{"goto",CommandType::C_GOTO},{"if-goto",CommandType::C_IF},{"function",CommandType::C_FUNCTION},{"return",CommandType::C_RETURN},{"call",CommandType::C_CALL}
 };
 
 std::vector<std::string> SplitString(const std::string& input)
@@ -67,7 +67,6 @@ CommandType GetCommandType(const std::string& input)
 
 CommandType GetCommandType2(const std::vector<std::string>& input)
 {
-    //std::vector<std::string> vs=SplitString(input);
    if(input.empty())
        throw std::invalid_argument("文字列が空です");
     std::string command=input[0];
@@ -235,6 +234,18 @@ public:
                 return {"@SP","AM=M-1","D=M","@16","D=D+A",'@'+std::to_string(arg2),"D=D+A","@SP","A=M","A=M","A=D-A","M=D-A"};
         }
             throw std::invalid_argument("popは未実装です");
+    }
+    std::vector<std::string> writeLabel(const std::string& arg1)
+    {
+        return {'('+arg1+')'};
+    }
+    std::vector<std::string> writeGoto(const std::string& arg1)
+    {
+        return {'@'+arg1,"0;JMP"};
+    }
+    std::vector<std::string> writeIf(const std::string& arg1)
+    {
+        return {"@SP","AM=M-1","D=M",'@'+arg1,"D;JNE"};
     }
 private:
     std::string _currentfilename;
