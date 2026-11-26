@@ -247,6 +247,20 @@ public:
     {
         return {"@SP","AM=M-1","D=M",'@'+arg1,"D;JNE"};
     }
+    
+    std::vector<std::string> writeCall(const std::string& funcname,int n)
+    {
+        return {"@return-address","D=A","@SP","AM=M+1","A=A-1","M=D","@LCL","D=M","@SP","AM=M+1","A=A-1","M=D","@ARG","D=M","@SP","AM=M+1","A=A-1","M=D","@THIS","D=M","@SP","AM=M+1","A=A-1","M=D","@THAT","D=M","@SP","AM=M+1","A=A-1","M=D",'@'+std::to_string(n),"D=D-A","@5","D=D-A","@ARG","M=D","@SP","D=M","@LCL","M=D",'@'+funcname,"0;JMP","(return-address)"};
+    }
+    std::vector<std::string> writeReturn()
+    {
+        return {"@LCL","D=M","@R13","M=D","@5","A=D-A","D=M","@R14","M=D","@SP","A=M-1","D=M","@ARG","A=M","M=D","@ARG","D=M","@SP","M=D+1","@R13","AM=M-1","D=M","@THAT","M=D","@R13","AM=M-1","D=M","@THIS","M=D","@R13","AM=M-1","D=M","@ARG","M=D","@R13","AM=M-1","D=M","@LCL","M=D","@R14","A=M","0;JMP"};
+    }
+    
+    std::vector<std::string> writeFunction(const std::string& funcname,int k)
+    {
+        return {'('+funcname+')',"@R13","M=1","(FUNCLOOP)","@R13","D=M",'@'+std::to_string(k),"D=D-A","@FUNCEND","D;JGT","@SP","AM=M+1","A=A-1","M=0","@R13","M=M+1","@FUNCLOOP","0;JMP","(FUNCEND)"};
+    }
 private:
     std::string _currentfilename;
     int counts=0;

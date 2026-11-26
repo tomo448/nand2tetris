@@ -37,3 +37,6 @@ nand2tetris 8章
 |ステージ１|ラベルコマンド|label nullなどを入力して(null)が作成される．先頭が数字のラベルの場合は例外を出す|特になし|
 |ステージ２|gotoコマンド| goto labelを入力して@label　0;JMPが出力される|特になし|
 |ステージ３|if goto コマンド|if goto labelを入力して@label　0;JNEが出力される|特になし|
+
+
+11/26 記録　16からpush local 0 25からpush local 1

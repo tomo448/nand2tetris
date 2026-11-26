@@ -50,6 +50,15 @@ int main(int argc,char* argv[])
             case CommandType::C_IF:
                 output=cw.writeIf(parser.arg1());
                 break;
+            case CommandType::C_CALL:
+                output=cw.writeCall(parser.arg1(),parser.arg2());
+                break;
+            case CommandType::C_FUNCTION:
+                output=cw.writeFunction(parser.arg1(),parser.arg2());
+                break;
+            case CommandType::C_RETURN:
+                output=cw.writeReturn();
+                break;
             default:
                 std::cerr<<"コマンドが一致しません"<<std::endl;
                 return 99;
