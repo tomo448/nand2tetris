@@ -27,3 +27,6 @@
 |CodeWriter.writeLabel|vm命令コマンド．通常はパサーからarg1を受け取る．C_LABELの場合しか呼び出さない|(label)を返す．関数内で呼び出された場合は，(function$label)を返す||
 |CodeWriter.writeGoto|vm命令コマンド．通常はパサーからarg1を受け取る．C_GOTOの場合しか呼び出さない|@label 0;JMPを返す||
 |CodeWriter.writeIf|vm命令コマンド．通常はパサーからarg1を受け取る．C_IFの場合しか呼び出さない|@SP A=M-1 D=M @label D;JNEを返す||
+|CodeWriter.writeFunction|vm命令コマンド．通常はパサーからarg1,arg2を受け取る．C_FUNCTIONの場合しか呼び出さない|p179のVMコードをアセンブリに直したものを返す||
+|CodeWriter.writeReturn|vm命令コマンド.C_RETURNの場合しか呼び出さない|p179のVMコードをアセンブリに直したものを返す||
+|CodeWriter.writeCall|vm命令コマンド．通常はパサーからarg1,arg2を受け取る．C_CALLの場合しか呼び出さない|p179のVMコードをアセンブリに直したものを返す||

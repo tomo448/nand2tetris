@@ -124,11 +124,11 @@ void CheckRightStyle(const std::vector<std::string>& input)
         throw std::invalid_argument("命令形式が間違っています．最後が数字でありません");
 }
 
-void PutInContainer(std::ifstream& ifs,std::vector<std::string>& container)
+std::vector<std::string> PutInContainer(std::ifstream& ifs)
 {
     std::string line;
     std::string commentout("//");
-    //std::vector<std::string> container;
+    std::vector<std::string> container;
     while(std::getline(ifs,line))
     {
         std::string::size_type pos=line.find(commentout);
@@ -145,7 +145,7 @@ void PutInContainer(std::ifstream& ifs,std::vector<std::string>& container)
             container.push_back(line);
         }
     }
-    //return container;
+    return container;
 }
 
 class Parser
@@ -214,7 +214,7 @@ public:
             else if(arg1=="pointer")
                 return {"@3","D=A",'@'+std::to_string(arg2),"A=D+A","D=M","@SP","AM=M+1","A=A-1","M=D"};
             else if(arg1=="static")
-                return {"@16","D=A",'@'+std::to_string(arg2),"A=D+A","D=M","@SP","AM=M+1","A=A-1","M=D"};
+                return {'@'+_currentfilename+'.'+std::to_string(arg2),"D=M","@SP","AM=M+1","A=A-1","M=D"};
         }
         else if(command==CommandType::C_POP)
         {
@@ -231,7 +231,7 @@ public:
             else if(arg1=="pointer")
                 return {"@SP","AM=M-1","D=M","@3","D=D+A",'@'+std::to_string(arg2),"D=D+A","@SP","A=M","A=M","A=D-A","M=D-A"};
             else if(arg1=="static")
-                return {"@SP","AM=M-1","D=M","@16","D=D+A",'@'+std::to_string(arg2),"D=D+A","@SP","A=M","A=M","A=D-A","M=D-A"};
+                return {"@SP","AM=M-1","D=M",'@'+_currentfilename+'.'+std::to_string(arg2),"M=D"};
         }
             throw std::invalid_argument("popは未実装です");
     }
@@ -250,6 +250,7 @@ public:
     
     std::vector<std::string> writeCall(const std::string& funcname,int n)
     {
+        //std::string fname=funcname+std::to_string(funccounts);
         funccounts++;
         std::string raddress=funcname+"$$"+"return-address"+std::to_string(funccounts);
         return {'@'+raddress,"D=A","@SP","AM=M+1","A=A-1","M=D","@LCL","D=M","@SP","AM=M+1","A=A-1","M=D","@ARG","D=M","@SP","AM=M+1","A=A-1","M=D","@THIS","D=M","@SP","AM=M+1","A=A-1","M=D","@THAT","D=M","@SP","AM=M+1","A=A-1","M=D","@SP","D=M",'@'+std::to_string(n),"D=D-A","@5","D=D-A","@ARG","M=D","@SP","D=M","@LCL","M=D",'@'+funcname,"0;JMP",'('+raddress+')'};
