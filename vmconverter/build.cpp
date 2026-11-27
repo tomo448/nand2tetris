@@ -3,29 +3,56 @@
 #include<iostream>
 #include<string>
 #include<vector>
+#include<filesystem>
 
 int main(int argc,char* argv[])
 {
-    if(argc<2){
+    if(argc<1){
         std::cerr<<"ファイルを指定してください"<<std::endl;
         return 1;
     }
-    std::ifstream ifs(argv[1]);
-    if(!ifs.is_open())
+    std::vector<std::string> script;
+    std::filesystem::path path=argv[1];
+    if(std::filesystem::is_directory(path))
+    {
+        for(const auto& dir_entry:std::filesystem::directory_iterator(path))
+        {
+            std::string filepath=dir_entry.path();
+            std::string stem=std::filesystem::path(filepath).stem();
+            std::string extension=std::filesystem::path(filepath).extension();
+            if(extension==".vm")
+            {
+                std::cout<<stem<<std::endl;
+                std::ifstream ifs(filepath);
+                PutInContainer(ifs,script);
+            }
+        }
+        auto pos=script.begin();
+        script.insert(pos,"call Sys.init 0");
+        std::string dirname=path.filename();
+        path.append(dirname);
+        path.replace_extension(".asm");
+    }
+    else if(std::filesystem::path(path).extension()==".vm")
+    {
+        std::ifstream ifs(path);
+        PutInContainer(ifs,script);
+        path.replace_extension(".asm");
+    }
+    std::ofstream ofs(path);
+    /*if(!ifs.is_open())
     {
         std::cerr<<"入力用ファイルが開けません"<<std::endl;
         return 2;
-    }
-    std::ofstream ofs(argv[2]);
-    if(!ofs.is_open())
+    }*/
+    /*if(!ofs.is_open())
     {
         std::cerr<<"出力用ファイルが開けません"<<std::endl;
         return 3;
-    }
-    std::vector<std::string> script;
-    script=PutInContainer(ifs);
+    }*/
     Parser parser(script);
     std::vector<std::string> output;
+    ofs<<"@256\n"<<"D=A\n"<<"@SP\n"<<"M=D\n";
     CodeWriter cw;
     while(parser.hasMoreCommands())
     {
