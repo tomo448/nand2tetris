@@ -40,3 +40,5 @@ nand2tetris 8章
 
 
 11/26 記録　16からpush local 0 25からpush local 1
+
+11/27 記録　filesystem::path::extensionで.vmを取り出せる．この文字列を比較する．

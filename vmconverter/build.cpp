@@ -18,11 +18,10 @@ int main(int argc,char* argv[])
         for(const auto& dir_entry:std::filesystem::directory_iterator(path))
         {
             std::string filepath=dir_entry.path();
-            std::string stem=std::filesystem::path(filepath).stem();
+            //std::string stem=std::filesystem::path(filepath).stem();
             std::string extension=std::filesystem::path(filepath).extension();
             if(extension==".vm")
             {
-                std::cout<<stem<<std::endl;
                 std::ifstream ifs(filepath);
                 PutInContainer(ifs,script);
             }
@@ -33,7 +32,7 @@ int main(int argc,char* argv[])
         path.append(dirname);
         path.replace_extension(".asm");
     }
-    else if(std::filesystem::path(path).extension()==".vm")
+    else
     {
         std::ifstream ifs(path);
         PutInContainer(ifs,script);
