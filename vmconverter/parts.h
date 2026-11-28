@@ -219,17 +219,17 @@ public:
         else if(command==CommandType::C_POP)
         {
             if(arg1=="local")
-                return {"@SP","AM=M-1","D=M","@LCL","D=D+M",'@'+std::to_string(arg2),"D=D+A","@SP","A=M","A=M","A=D-A","M=D-A"};
+                return {"@SP","AM=M-1","D=M","@LCL","D=D+M",'@'+std::to_string(arg2),"D=D+A","@SP","A=M","A=D-M","M=D-A"};
             else if(arg1=="argument")
-                return {"@SP","AM=M-1","D=M","@ARG","D=D+M",'@'+std::to_string(arg2),"D=D+A","@SP","A=M","A=M","A=D-A","M=D-A"};
+                return {"@SP","AM=M-1","D=M","@ARG","D=D+M",'@'+std::to_string(arg2),"D=D+A","@SP","A=M","A=D-M","M=D-A"};
             else if(arg1=="this")
-                return {"@SP","AM=M-1","D=M","@THIS","D=D+M",'@'+std::to_string(arg2),"D=D+A","@SP","A=M","A=M","A=D-A","M=D-A"};
+                return {"@SP","AM=M-1","D=M","@THIS","D=D+M",'@'+std::to_string(arg2),"D=D+A","@SP","A=M","A=D-M","M=D-A"};
             else if(arg1=="that")
-                return {"@SP","AM=M-1","D=M","@THAT","D=D+M",'@'+std::to_string(arg2),"D=D+A","@SP","A=M","A=M","A=D-A","M=D-A"};
+                return {"@SP","AM=M-1","D=M","@THAT","D=D+M",'@'+std::to_string(arg2),"D=D+A","@SP","A=M","A=D-M","M=D-A"};
             else if(arg1=="temp")
-                return {"@SP","AM=M-1","D=M","@5","D=D+A",'@'+std::to_string(arg2),"D=D+A","@SP","A=M","A=M","A=D-A","M=D-A"};
+                return {"@SP","AM=M-1","D=M","@5","D=D+A",'@'+std::to_string(arg2),"D=D+A","@SP","A=M","A=D-M","M=D-A"};
             else if(arg1=="pointer")
-                return {"@SP","AM=M-1","D=M","@3","D=D+A",'@'+std::to_string(arg2),"D=D+A","@SP","A=M","A=M","A=D-A","M=D-A"};
+                return {"@SP","AM=M-1","D=M","@3","D=D+A",'@'+std::to_string(arg2),"D=D+A","@SP","A=M","A=D-M","M=D-A"};
             else if(arg1=="static")
                 return {"@SP","AM=M-1","D=M",'@'+_currentfilename+'.'+std::to_string(arg2),"M=D"};
         }
