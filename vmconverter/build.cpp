@@ -5,9 +5,9 @@
 #include<vector>
 #include<filesystem>
 
-std::vector<std::string> output1(const std::vector<std::string>& stream,const std::string& filename,CodeWriter& cw)
+std::vector<std::string> output1(std::vector<std::string> stream,const std::string& filename,CodeWriter& cw)
 {
-    Parser parser(stream);
+    Parser parser(std::move(stream));
     std::vector<std::string> output;
     //ofs<<"@256\n"<<"D=A\n"<<"@SP\n"<<"M=D\n";
     std::vector<std::string> op;
@@ -71,7 +71,7 @@ int main(int argc,char* argv[])
         std::ofstream ofs(path);
         ofs<<"@256\n"<<"D=A\n"<<"@SP\n"<<"M=D\n";
         script.push_back("call Sys.init 0");
-        output=output1(script,"",cw);
+        output=output1(std::move(script),"",cw);
         for(auto& c:output)
         {
             ofs<<c<<std::endl;
@@ -85,7 +85,7 @@ int main(int argc,char* argv[])
             {
                 std::ifstream ifs(filepath);
                 script=PutInContainer(ifs);
-                output=output1(script,stem,cw);
+                output=output1(std::move(script),stem,cw);
                 for(auto& c:output)
                 {
                     ofs<<c<<std::endl;
@@ -102,7 +102,7 @@ int main(int argc,char* argv[])
         script=PutInContainer(ifs);
         path.replace_extension(".asm");
         std::ofstream ofs(path);
-        output=output1(script,"",cw);
+        output=output1(std::move(script),"",cw);
         for(auto& c:output)
         {
             ofs<<c<<std::endl;

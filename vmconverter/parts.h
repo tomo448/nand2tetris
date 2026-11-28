@@ -151,12 +151,12 @@ std::vector<std::string> PutInContainer(std::ifstream& ifs)
 class Parser
 {
 public:
-    Parser(std::vector<std::string> str){_str=str;_number_of_lines=-1;}
+    Parser(std::vector<std::string> str):_str(std::move(str)),_number_of_lines(-1){}
     bool hasMoreCommands(){int commandcount=_str.size();if(commandcount>(_number_of_lines+1))return true;return false;}
     void advance(){if(hasMoreCommands()){_number_of_lines++;_line=SplitString(_str[_number_of_lines]);}else{throw std::out_of_range("最後の行です");}}
-    CommandType commandType(){return GetCommandType2(_line);}
-    std::string arg1(){return GetArgument1(_line);}
-    int arg2(){return GetArgument2(_line);}
+    CommandType commandType()const{return GetCommandType2(_line);}
+    std::string arg1()const{return GetArgument1(_line);}
+    int arg2()const{return GetArgument2(_line);}
     
 private:
     std::vector<std::string> _str;
