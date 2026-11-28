@@ -13,3 +13,4 @@ test_*
 !test_*.vm
 *.asm
 vmconverter/build
+cpp-experiments/main
